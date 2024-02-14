@@ -101,5 +101,6 @@
     "extends": [
       "github>semantic-release/.github:renovate-config"
     ]
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }
