@@ -38,7 +38,7 @@
     },
     "ava": {
         "files": [
-            "./dist/test/*.test.js"
+            "./dist/test/*.test.mjs"
         ],
         "timeout": "2m",
         "workerThreads": false

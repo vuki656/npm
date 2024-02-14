@@ -20,5 +20,5 @@
         "skipLibCheck": true,
         "noEmitOnError": true
     },
-    "include": ["./**/*.ts"]
+    "include": ["test/*.mts", "lib/*.mts"]
 }
