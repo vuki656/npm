@@ -1,6 +1,6 @@
 // @ts-check
 
-import path from 'path'
+import { resolve } from 'node:path'
 import { execa } from 'execa'
 import { getRegistry } from './get-registry.mjs'
 import { getChannel } from './get-channel.mjs'
@@ -17,7 +17,7 @@ export async function publishNpm(npmrc: any, { npmPublish, pkgRoot }: any, pkg: 
     } = context
 
     if (npmPublish !== false && pkg.private !== true) {
-        const basePath = pkgRoot ? path.resolve(cwd, pkgRoot) : cwd
+        const basePath = pkgRoot ? resolve(cwd, pkgRoot) : cwd
         const registry = getRegistry(pkg, context)
         const distTag = getChannel(channel)
 

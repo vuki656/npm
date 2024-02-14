@@ -1,9 +1,8 @@
-import { dirname } from 'node:path'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { setTimeout } from 'node:timers/promises'
 import Docker from 'dockerode'
 import got from 'got'
-import path from 'path'
 import pRetry from 'p-retry'
 
 const IMAGE = 'verdaccio/verdaccio:5'
@@ -33,7 +32,7 @@ export async function start() {
         PortBindings: {
             [`${REGISTRY_PORT}/tcp`]: [{ HostPort: `${REGISTRY_PORT}` }],
         },
-        Binds: [`${path.join(__dirname, 'config.yaml')}:/verdaccio/conf/config.yaml`],
+        Binds: [`${join(__dirname, 'config.yaml')}:/verdaccio/conf/config.yaml`],
     })
 
     await container.start()

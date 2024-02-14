@@ -1,6 +1,6 @@
 // @ts-check
 
-import path from 'path'
+import { resolve } from 'node:path'
 import rc from 'rc'
 import getRegistryUrl from 'registry-auth-token/registry-url.js'
 
@@ -15,7 +15,7 @@ export function getRegistry({ publishConfig: { registry } = {}, name }: Record<s
             rc(
                 'npm',
                 { registry: 'https://registry.npmjs.org/' },
-                { config: env.NPM_CONFIG_USERCONFIG || path.resolve(cwd, '.npmrc') },
+                { config: env.NPM_CONFIG_USERCONFIG || resolve(cwd, '.npmrc') },
             ),
         )
     )

@@ -1,6 +1,5 @@
 // @ts-check
 
-import path from 'path'
 import test from 'ava'
 import fs from 'fs-extra'
 import { execa } from 'execa'
@@ -9,6 +8,7 @@ import { temporaryDirectory } from 'tempy'
 import { WritableStreamBuffer } from 'stream-buffers'
 import { addChannel, prepare, publish, verifyConditions } from '../index.mjs'
 import { authEnv, start, url, stop } from './helpers/npm-registry.mjs'
+import { resolve } from 'node:path'
 
 // Environment variables used only for the local npm command used to do verification
 let testEnv: any
@@ -45,7 +45,7 @@ test('Skip npm auth verification if "npmPublish" is false', async (t: any) => {
         version: '1.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await t.notThrowsAsync(
         verifyConditions(
@@ -70,7 +70,7 @@ test('Skip npm auth verification if "package.private" is true', async (t: any) =
         publishConfig: { registry:  url },
         private: true,
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await t.notThrowsAsync(
         verifyConditions(
@@ -95,7 +95,7 @@ test('Skip npm token verification if "package.private" is true', async (t: any) 
         publishConfig: { registry:  url },
         private: true,
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     await t.notThrowsAsync(
         verifyConditions(
             {},
@@ -122,7 +122,7 @@ test('Throws error if NPM token is invalid', async (t: any) => {
         version: '1.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const {
         errors: [error],
@@ -153,7 +153,7 @@ test('Skip Token validation if the registry configured is not the default one', 
         version: '1.0.0',
         publishConfig: { registry: 'http://custom-registry.com/' },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     await t.notThrowsAsync(
          verifyConditions(
             {},
@@ -176,7 +176,7 @@ test('Verify npm auth and package', async (t: any) => {
         version: '0.0.0-dev',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     await t.notThrowsAsync(
          verifyConditions(
             {},
@@ -199,7 +199,7 @@ test('Verify npm auth and package from a sub-directory', async (t: any) => {
         version: '0.0.0-dev',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'dist/package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'dist/package.json'), pkg)
     await t.notThrowsAsync(
          verifyConditions(
             { pkgRoot: 'dist' },
@@ -222,7 +222,7 @@ test('Verify npm auth and package with "npm_config_registry" env var set by yarn
         version: '0.0.0-dev',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     await t.notThrowsAsync(
          verifyConditions(
             {},
@@ -244,7 +244,7 @@ test('Verify npm auth and package with "npm_config_registry" env var set by yarn
 test('Throw SemanticReleaseError Array if config option are not valid in verifyConditions', async (t: any) => {
     const cwd = temporaryDirectory()
     const pkg = { publishConfig: { registry:  url } }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     const npmPublish = 42
     const tarballDir = 42
     const pkgRoot = 42
@@ -294,7 +294,7 @@ test('Publish the package', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await publish(
         {},
@@ -314,8 +314,8 @@ test('Publish the package', async (t: any) => {
         url: undefined,
         channel: 'latest',
     })
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.false(await fs.pathExists(path.resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.false(await fs.pathExists(resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
     t.is((await execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv })).stdout, '1.0.0')
 })
 
@@ -330,7 +330,7 @@ test('Publish the package on a dist-tag', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url, tag: 'next' },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await  publish(
         {},
@@ -350,8 +350,8 @@ test('Publish the package on a dist-tag', async (t: any) => {
         url: 'https://www.npmjs.com/package/publish-tag/v/1.0.0',
         channel: 'next',
     })
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.false(await fs.pathExists(path.resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.false(await fs.pathExists(resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
     t.is((await execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv })).stdout, '1.0.0')
 })
 
@@ -363,7 +363,7 @@ test('Publish the package from a sub-directory', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'dist/package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'dist/package.json'), pkg)
 
     const result = await  publish(
         { pkgRoot: 'dist' },
@@ -383,8 +383,8 @@ test('Publish the package from a sub-directory', async (t: any) => {
         url: undefined,
         channel: 'latest',
     })
-    t.is((await fs.readJson(path.resolve(cwd, 'dist/package.json'))).version, '1.0.0')
-    t.false(await fs.pathExists(path.resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'dist/package.json'))).version, '1.0.0')
+    t.false(await fs.pathExists(resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
     t.is((await execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv })).stdout, '1.0.0')
 })
 
@@ -396,7 +396,7 @@ test('Create the package and skip publish ("npmPublish" is false)', async (t: an
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await  publish(
         { npmPublish: false, tarballDir: 'tarball' },
@@ -412,8 +412,8 @@ test('Create the package and skip publish ("npmPublish" is false)', async (t: an
     )
 
     t.false(result)
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.true(await fs.pathExists(path.resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.true(await fs.pathExists(resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
     await t.throwsAsync(execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv }))
 })
 
@@ -426,7 +426,7 @@ test('Create the package and skip publish ("package.private" is true)', async (t
         publishConfig: { registry:  url },
         private: true,
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await  publish(
         { tarballDir: 'tarball' },
@@ -442,8 +442,8 @@ test('Create the package and skip publish ("package.private" is true)', async (t
     )
 
     t.false(result)
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.true(await fs.pathExists(path.resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.true(await fs.pathExists(resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
     await t.throwsAsync(execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv }))
 })
 
@@ -455,7 +455,7 @@ test('Create the package and skip publish from a sub-directory ("npmPublish" is 
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'dist/package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'dist/package.json'), pkg)
 
     const result = await  publish(
         { npmPublish: false, tarballDir: './tarball', pkgRoot: './dist' },
@@ -471,8 +471,8 @@ test('Create the package and skip publish from a sub-directory ("npmPublish" is 
     )
 
     t.false(result)
-    t.is((await fs.readJson(path.resolve(cwd, 'dist/package.json'))).version, '1.0.0')
-    t.true(await fs.pathExists(path.resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'dist/package.json'))).version, '1.0.0')
+    t.true(await fs.pathExists(resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
     await t.throwsAsync(execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv }))
 })
 
@@ -485,7 +485,7 @@ test('Create the package and skip publish from a sub-directory ("package.private
         publishConfig: { registry:  url },
         private: true,
     }
-    await fs.outputJson(path.resolve(cwd, 'dist/package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'dist/package.json'), pkg)
 
     const result = await  publish(
         { tarballDir: './tarball', pkgRoot: './dist' },
@@ -501,15 +501,15 @@ test('Create the package and skip publish from a sub-directory ("package.private
     )
 
     t.false(result)
-    t.is((await fs.readJson(path.resolve(cwd, 'dist/package.json'))).version, '1.0.0')
-    t.true(await fs.pathExists(path.resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'dist/package.json'))).version, '1.0.0')
+    t.true(await fs.pathExists(resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
     await t.throwsAsync(execa('npm', ['view', pkg.name, 'version'], { cwd, env: testEnv }))
 })
 
 test('Throw SemanticReleaseError Array if config option are not valid in publish', async (t: any) => {
     const cwd = temporaryDirectory()
     const pkg = { publishConfig: { registry:  url } }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     const npmPublish = 42
     const tarballDir = 42
     const pkgRoot = 42
@@ -553,7 +553,7 @@ test('Prepare the package', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await  prepare(
         {},
@@ -568,8 +568,8 @@ test('Prepare the package', async (t: any) => {
         },
     )
 
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.false(await fs.pathExists(path.resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.false(await fs.pathExists(resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
 })
 
 test('Prepare the package from a sub-directory', async (t: any) => {
@@ -580,7 +580,7 @@ test('Prepare the package from a sub-directory', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'dist/package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'dist/package.json'), pkg)
 
     await  prepare(
         { pkgRoot: 'dist' },
@@ -595,14 +595,14 @@ test('Prepare the package from a sub-directory', async (t: any) => {
         },
     )
 
-    t.is((await fs.readJson(path.resolve(cwd, 'dist/package.json'))).version, '1.0.0')
-    t.false(await fs.pathExists(path.resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'dist/package.json'))).version, '1.0.0')
+    t.false(await fs.pathExists(resolve(cwd, `${pkg.name}-1.0.0.tgz`)))
 })
 
 test('Throw SemanticReleaseError Array if config option are not valid in prepare', async (t: any) => {
     const cwd = temporaryDirectory()
     const pkg = { publishConfig: { registry:  url } }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     const npmPublish = 42
     const tarballDir = 42
     const pkgRoot = 42
@@ -646,7 +646,7 @@ test('Publish the package and add to default dist-tag', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await  publish(
         {},
@@ -690,7 +690,7 @@ test('Publish the package and add to lts dist-tag', async (t: any) => {
         version: '1.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await  publish(
         {},
@@ -737,7 +737,7 @@ test('Skip adding the package to a channel ("npmPublish" is false)', async (t: a
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await  addChannel(
         { npmPublish: false },
@@ -765,7 +765,7 @@ test('Skip adding the package to a channel ("package.private" is true)', async (
         publishConfig: { registry:  url },
         private: true,
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     const result = await  addChannel(
         {},
@@ -792,7 +792,7 @@ test('Create the package in addChannel step', async (t: any) => {
         version: '0.0.0',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await  prepare(
         { npmPublish: false, tarballDir: 'tarball' },
@@ -807,15 +807,15 @@ test('Create the package in addChannel step', async (t: any) => {
         },
     )
 
-    t.is((await fs.readJson(path.resolve(cwd, 'package.json'))).version, '1.0.0')
-    t.true(await fs.pathExists(path.resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
+    t.is((await fs.readJson(resolve(cwd, 'package.json'))).version, '1.0.0')
+    t.true(await fs.pathExists(resolve(cwd, `tarball/${pkg.name}-1.0.0.tgz`)))
 })
 
 test('Throw SemanticReleaseError Array if config option are not valid in addChannel', async (t: any) => {
     const cwd = temporaryDirectory()
     const env =  authEnv()
     const pkg = { publishConfig: { registry:  url } }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
     const npmPublish = 42
     const tarballDir = 42
     const pkgRoot = 42
@@ -859,7 +859,7 @@ test('Verify token and set up auth only on the fist call, then prepare on prepar
         version: '0.0.0-dev',
         publishConfig: { registry:  url },
     }
-    await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
+    await fs.outputJson(resolve(cwd, 'package.json'), pkg)
 
     await t.notThrowsAsync(
          verifyConditions(

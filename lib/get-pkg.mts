@@ -1,6 +1,6 @@
 // @ts-check
 
-import path from 'path'
+import { resolve } from 'node:path'
 import { readPackage } from 'read-pkg'
 import AggregateError from 'aggregate-error'
 import { getError } from './get-error.mjs'
@@ -8,7 +8,7 @@ import { getError } from './get-error.mjs'
 export async function getPkg({ pkgRoot }: any, { cwd }: any) {
     try {
         const pkg = await readPackage({
-            cwd: pkgRoot ? path.resolve(cwd, String(pkgRoot)) : cwd,
+            cwd: pkgRoot ? resolve(cwd, String(pkgRoot)) : cwd,
         })
 
         if (!pkg.name) {
