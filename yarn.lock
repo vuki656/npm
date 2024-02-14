@@ -625,7 +625,6 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     nerf-dart: "npm:^1.0.0"
     normalize-url: "npm:^8.0.0"
-    npm: "npm:^10.4.0"
     p-retry: "npm:6.2.0"
     prettier: "npm:^3.2.5"
     rc: "npm:^1.2.8"
@@ -4166,7 +4165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm@npm:^10.0.0, npm@npm:^10.4.0":
+"npm@npm:^10.0.0":
   version: 10.4.0
   resolution: "npm@npm:10.4.0"
   dependencies:
