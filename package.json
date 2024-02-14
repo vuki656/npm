@@ -33,6 +33,10 @@
     "tempy": "^3.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.11.17",
+    "@types/rc": "^1.2.4",
     "ava": "6.1.1",
     "c8": "9.1.0",
     "codecov": "3.8.3",
@@ -42,7 +46,8 @@
     "prettier": "3.2.5",
     "semantic-release": "23.0.2",
     "sinon": "17.0.1",
-    "stream-buffers": "3.0.2"
+    "stream-buffers": "3.0.2",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": "^18.17 || >=20"
