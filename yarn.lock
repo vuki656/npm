@@ -598,6 +598,9 @@ __metadata:
     "@types/lodash-es": "npm:^4.17.12"
     "@types/node": "npm:^20.11.17"
     "@types/rc": "npm:^1.2.4"
+    "@types/semver": "npm:^7.5.7"
+    "@types/sinon": "npm:^17.0.3"
+    "@types/stream-buffers": "npm:^3.0.7"
     aggregate-error: "npm:^5.0.0"
     ava: "npm:6.1.1"
     c8: "npm:9.1.0"
@@ -886,6 +889,38 @@ __metadata:
   version: 0.12.2
   resolution: "@types/retry@npm:0.12.2"
   checksum: 10c0/07481551a988cc90b423351919928b9ddcd14e3f5591cac3ab950851bb20646e55a10e89141b38bc3093d2056d4df73700b22ff2612976ac86a6367862381884
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7.5.7":
+  version: 7.5.7
+  resolution: "@types/semver@npm:7.5.7"
+  checksum: 10c0/fb72d8b86a7779650f14ae89542f1da2ab624adb8188d98754b1d29a2fe3d41f0348bf9435b60ad145df1812fd2a09b3256779aa23b532c199f3dee59619a1eb
+  languageName: node
+  linkType: hard
+
+"@types/sinon@npm:^17.0.3":
+  version: 17.0.3
+  resolution: "@types/sinon@npm:17.0.3"
+  dependencies:
+    "@types/sinonjs__fake-timers": "npm:*"
+  checksum: 10c0/6fc3aa497fd87826375de3dbddc2bf01c281b517c32c05edf95b5ad906382dc221bca01ca9d44fc7d5cb4c768f996f268154e87633a45b3c0b5cddca7ef5e2be
+  languageName: node
+  linkType: hard
+
+"@types/sinonjs__fake-timers@npm:*":
+  version: 8.1.5
+  resolution: "@types/sinonjs__fake-timers@npm:8.1.5"
+  checksum: 10c0/2b8bdc246365518fc1b08f5720445093cce586183acca19a560be6ef81f824bd9a96c090e462f622af4d206406dadf2033c5daf99a51c1096da6494e5c8dc32e
+  languageName: node
+  linkType: hard
+
+"@types/stream-buffers@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "@types/stream-buffers@npm:3.0.7"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/c27f2b698a63aa6c0a4023ac47aad174bd601963d65a419f7422970ec7f946e65ed6920c71540fc8a9c1044642e5da769ea51e370abbc5d614f3ab16ff08529f
   languageName: node
   linkType: hard
 

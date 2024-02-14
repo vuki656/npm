@@ -1,3 +1,5 @@
+// @ts-check
+
 import path from "path";
 import test from "ava";
 import fs from "fs-extra";
@@ -5,7 +7,7 @@ import { temporaryDirectory, temporaryFile } from "tempy";
 import { execa } from "execa";
 import { stub } from "sinon";
 import { WritableStreamBuffer } from "stream-buffers";
-import prepare from "../lib/prepare.js";
+import { prepareNpm } from "../lib/prepare.js";
 
 test.beforeEach((t) => {
   t.context.log = stub();
@@ -20,7 +22,7 @@ test("Update package.json", async (t) => {
   const packagePath = path.resolve(cwd, "package.json");
   await fs.outputJson(packagePath, { version: "0.0.0-dev" });
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     {},
     {
@@ -49,7 +51,7 @@ test("Updade package.json and npm-shrinkwrap.json", async (t) => {
   // Create a npm-shrinkwrap.json file
   await execa("npm", ["shrinkwrap"], { cwd });
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     {},
     {
@@ -79,7 +81,7 @@ test("Updade package.json and package-lock.json", async (t) => {
   // Create a package-lock.json file
   await execa("npm", ["install"], { cwd });
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     {},
     {
@@ -109,7 +111,7 @@ test("Updade package.json and npm-shrinkwrap.json in a sub-directory", async (t)
   // Create a npm-shrinkwrap.json file
   await execa("npm", ["shrinkwrap"], { cwd: path.resolve(cwd, pkgRoot) });
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     { pkgRoot },
     {
@@ -140,7 +142,7 @@ test("Updade package.json and package-lock.json in a sub-directory", async (t) =
   // Create a package-lock.json file
   await execa("npm", ["install"], { cwd: path.resolve(cwd, pkgRoot) });
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     { pkgRoot },
     {
@@ -166,7 +168,7 @@ test("Preserve indentation and newline", async (t) => {
   const packagePath = path.resolve(cwd, "package.json");
   await fs.outputFile(packagePath, `{\r\n        "name": "package-name",\r\n        "version": "0.0.0-dev"\r\n}\r\n`);
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     {},
     {
@@ -196,7 +198,7 @@ test('Create the package in the "tarballDir" directory', async (t) => {
   const pkg = { name: "my-pkg", version: "0.0.0-dev" };
   await fs.outputJson(packagePath, pkg);
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     { tarballDir: "tarball" },
     {
@@ -224,7 +226,7 @@ test('Only move the created tarball if the "tarballDir" directory is not the CWD
   const pkg = { name: "my-pkg", version: "0.0.0-dev" };
   await fs.outputJson(packagePath, pkg);
 
-  await prepare(
+  await prepareNpm(
     npmrc,
     { tarballDir: "." },
     {

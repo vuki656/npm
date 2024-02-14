@@ -1,5 +1,7 @@
+// @ts-check
+
 import test from "ava";
-import getReleaseInfo from "../lib/get-release-info.js";
+import { getReleaseInfo } from "../lib/get-release-info.js";
 
 test("Default registry and scoped module", async (t) => {
   t.deepEqual(

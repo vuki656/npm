@@ -1,3 +1,5 @@
+// @ts-check
+
 import { resolve } from "node:path";
 import test from "ava";
 import fs from "fs-extra";
@@ -33,7 +35,7 @@ test.serial('Set auth with "NPM_TOKEN"', async (t) => {
   const npmrc = temporaryFile({ name: ".npmrc" });
   const env = { NPM_TOKEN: "npm_token" };
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", { cwd, env, logger: t.context.logger });
 
   t.regex((await fs.readFile(npmrc)).toString(), /\/\/custom.registry.com\/:_authToken = \${NPM_TOKEN}/);
@@ -46,7 +48,7 @@ test.serial('Preserve home ".npmrc"', async (t) => {
 
   await fs.appendFile(resolve(process.env.HOME, ".npmrc"), "home_config = test");
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", { cwd, env, logger: t.context.logger });
 
   t.is((await fs.readFile(npmrc)).toString(), `home_config = test\n//custom.registry.com/:_authToken = \${NPM_TOKEN}`);
@@ -61,7 +63,7 @@ test.serial('Preserve home and local ".npmrc"', async (t) => {
   await fs.appendFile(resolve(cwd, ".npmrc"), "cwd_config = test");
   await fs.appendFile(resolve(process.env.HOME, ".npmrc"), "home_config = test");
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", { cwd, env, logger: t.context.logger });
 
   t.is(
@@ -81,7 +83,7 @@ test.serial('Preserve all ".npmrc" if auth is already configured', async (t) => 
   await fs.appendFile(resolve(cwd, ".npmrc"), `//custom.registry.com/:_authToken = \${NPM_TOKEN}`);
   await fs.appendFile(resolve(process.env.HOME, ".npmrc"), "home_config = test");
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", { cwd, env: {}, logger: t.context.logger });
 
   t.is((await fs.readFile(npmrc)).toString(), `home_config = test\n//custom.registry.com/:_authToken = \${NPM_TOKEN}`);
@@ -100,7 +102,7 @@ test.serial('Preserve ".npmrc" if auth is already configured for a scoped packag
   );
   await fs.appendFile(resolve(process.env.HOME, ".npmrc"), "home_config = test");
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", { cwd, env: {}, logger: t.context.logger });
 
   t.is(
@@ -116,7 +118,7 @@ test.serial('Preserve ".npmrc" if auth is already configured for a scoped packag
 test.serial('Throw error if "NPM_TOKEN" is missing', async (t) => {
   const npmrc = temporaryFile({ name: ".npmrc" });
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   const {
     errors: [error],
   } = await t.throwsAsync(
@@ -133,7 +135,7 @@ test.serial('Emulate npm config resolution if "NPM_CONFIG_USERCONFIG" is set', a
 
   await fs.appendFile(resolve(cwd, ".custom-npmrc"), `//custom.registry.com/:_authToken = \${NPM_TOKEN}`);
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://custom.registry.com", {
     cwd,
     env: { NPM_CONFIG_USERCONFIG: resolve(cwd, ".custom-npmrc") },
@@ -151,7 +153,7 @@ test.serial("Prefer .npmrc over environment variables", async (t) => {
 
   await fs.appendFile(resolve(cwd, ".npmrc"), "//registry.npmjs.org/:_authToken=npmrc_npm_token");
 
-  const setNpmrcAuth = (await import("../lib/set-npmrc-auth.js")).default;
+  const { setNpmrcAuth } = (await import("../lib/set-npmrc-auth.js"));
   await setNpmrcAuth(npmrc, "http://registry.npmjs.org", { cwd, env, logger: t.context.logger });
 
   t.is(

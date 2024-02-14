@@ -1,8 +1,10 @@
+// @ts-check
+
 import path from "path";
 import test from "ava";
 import fs from "fs-extra";
 import { temporaryDirectory } from "tempy";
-import getPkg from "../lib/get-pkg.js";
+import { getPkg } from "../lib/get-pkg.js";
 
 test("Verify name and version then return parsed package.json", async (t) => {
   const cwd = temporaryDirectory();

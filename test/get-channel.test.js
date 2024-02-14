@@ -1,5 +1,7 @@
+// @ts-check
+
 import test from "ava";
-import getChannel from "../lib/get-channel.js";
+import { getChannel } from "../lib/get-channel.js";
 
 test.serial("Get default channel", (t) => {
   t.is(getChannel(undefined), "latest");

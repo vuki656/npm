@@ -1,3 +1,5 @@
+// @ts-check
+
 import path from "path";
 import test from "ava";
 import fs from "fs-extra";
