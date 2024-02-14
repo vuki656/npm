@@ -1,29 +1,47 @@
 {
     "name": "@semantic-release/npm",
-    "description": "semantic-release plugin to publish a npm package",
     "version": "0.0.0-development",
-    "author": "Pierre Vanduynslager (https://twitter.com/@pvdlg_)",
-    "ava": {
-        "files": [
-            "test/**/*.test.js"
-        ],
-        "timeout": "2m",
-        "workerThreads": false
-    },
+    "description": "semantic-release plugin to publish a npm package",
+    "keywords": [
+        "npm",
+        "publish",
+        "registry",
+        "semantic-release",
+        "version"
+    ],
+    "homepage": "https://github.com/semantic-release/npm#readme",
     "bugs": {
         "url": "https://github.com/semantic-release/npm/issues"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/semantic-release/npm.git"
+    },
+    "license": "MIT",
+    "author": "Pierre Vanduynslager (https://twitter.com/@pvdlg_)",
     "contributors": [
         "Stephan Bönnemann <stephan@boennemann.me> (http://boennemann.me)",
         "Gregor Martynus (https://twitter.com/gr2m)"
+    ],
+    "main": "index.js",
+    "type": "module",
+    "files": [
+        "lib",
+        "index.js"
     ],
     "scripts": {
         "codecov": "codecov -f coverage/coverage-final.json",
         "lint": "prettier --check './**/*.{js,ts,yaml,yml,json,md}'",
         "lint:fix": "prettier --write './**/*.{js,ts,yaml,yml,json,md}'",
-        "pretest": "npm run lint",
-        "test": "ava -v",
+        "test": "tsc && ava -v",
         "test:ci": "ava -v"
+    },
+    "ava": {
+        "files": [
+            "./dist/test/*.test.js"
+        ],
+        "timeout": "2m",
+        "workerThreads": false
     },
     "dependencies": {
         "@semantic-release/error": "^4.0.0",
@@ -41,6 +59,7 @@
         "tempy": "^3.1.0"
     },
     "devDependencies": {
+        "@ava/typescript": "^4.1.0",
         "@types/fs-extra": "^11.0.4",
         "@types/lodash-es": "^4.17.12",
         "@types/node": "^20.11.17",
@@ -60,51 +79,20 @@
         "stream-buffers": "3.0.2",
         "typescript": "^5.3.3"
     },
-    "engines": {
-        "node": "^18.17 || >=20"
-    },
-    "files": [
-        "lib",
-        "index.js"
-    ],
-    "homepage": "https://github.com/semantic-release/npm#readme",
-    "keywords": [
-        "npm",
-        "publish",
-        "registry",
-        "semantic-release",
-        "version"
-    ],
-    "license": "MIT",
-    "main": "index.js",
-    "c8": {
-        "include": [
-            "lib/**/*.js",
-            "index.js"
-        ],
-        "reporter": [
-            "json",
-            "text",
-            "html"
-        ],
-        "all": true
-    },
     "peerDependencies": {
         "semantic-release": ">=20.1.0"
+    },
+    "packageManager": "yarn@4.1.0",
+    "engines": {
+        "node": "^18.17 || >=20"
     },
     "publishConfig": {
         "access": "public",
         "provenance": true
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/semantic-release/npm.git"
-    },
-    "type": "module",
     "renovate": {
         "extends": [
             "github>semantic-release/.github:renovate-config"
         ]
-    },
-    "packageManager": "yarn@4.1.0"
+    }
 }

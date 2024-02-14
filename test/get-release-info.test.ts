@@ -5,7 +5,7 @@ import { getReleaseInfo } from '../lib/get-release-info.js'
 
 test('Default registry and scoped module', async (t) => {
     t.deepEqual(
-        await getReleaseInfo(
+        getReleaseInfo(
             { name: '@scope/module' },
             { env: {}, nextRelease: { version: '1.0.0' } },
             'latest',
@@ -21,7 +21,7 @@ test('Default registry and scoped module', async (t) => {
 
 test('Custom registry and scoped module', async (t) => {
     t.deepEqual(
-        await getReleaseInfo(
+        getReleaseInfo(
             { name: '@scope/module' },
             { env: {}, nextRelease: { version: '1.0.0' } },
             'latest',
