@@ -2,21 +2,32 @@
 
 import normalizeUrl from 'normalize-url'
 
+type ConfigType = {
+    env?: {
+        DEFAULT_NPM_REGISTRY: string
+    },
+    nextRelease: {
+        version: string
+    }
+}
+
+type DetailsType = {
+    name: string
+}
+
 export function getReleaseInfo(
-    { name }: { name: string },
-    { 
-        env: { DEFAULT_NPM_REGISTRY = 'https://registry.npmjs.org/' },
-        nextRelease: { version }
-    }: any,
-    distTag: any,
-    registry: any,
+    details: DetailsType,
+    config: ConfigType,
+    distTag: string,
+    registry: string,
 ) {
+    const isUrlNormalized = normalizeUrl(registry) === normalizeUrl(config?.env?.DEFAULT_NPM_REGISTRY ?? 'https://registry.npmjs.org/')
+
     return {
         name: `npm package (@${distTag} dist-tag)`,
-        url:
-            normalizeUrl(registry) === normalizeUrl(DEFAULT_NPM_REGISTRY)
-                ? `https://www.npmjs.com/package/${name}/v/${version}`
-                : undefined,
+        url: isUrlNormalized
+            ? `https://www.npmjs.com/package/${details.name}/v/${config.nextRelease.version}`
+            : undefined,
         channel: distTag,
     }
 }
