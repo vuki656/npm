@@ -15,7 +15,8 @@ const NPM_EMAIL = 'integration@test.com'
 const docker = new Docker()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-let container, npmToken
+let container: any
+let npmToken: any
 
 /**
  * Download the `npm-registry-docker` Docker image, create a new container and start it.
@@ -28,7 +29,7 @@ export async function start() {
 
     container = await docker.createContainer({
         Tty: true,
-        Image: IMAGE,
+        Image: IMAGE, // @ts-expect-error
         PortBindings: {
             [`${REGISTRY_PORT}/tcp`]: [{ HostPort: `${REGISTRY_PORT}` }],
         },
@@ -62,14 +63,14 @@ export async function start() {
         },
     })
 
-    // Create token for user
+    
     ;({ token: npmToken } = await got(`http://${REGISTRY_HOST}:${REGISTRY_PORT}/-/npm/v1/tokens`, {
         username: NPM_USERNAME,
         password: NPM_PASSWORD,
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         json: { password: NPM_PASSWORD, readonly: false, cidr_whitelist: [] },
-    }).json())
+    }).json() as any)
 }
 
 export const url = `http://${REGISTRY_HOST}:${REGISTRY_PORT}/`

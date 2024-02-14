@@ -3,18 +3,18 @@
 import { castArray, defaultTo } from 'lodash-es'
 import AggregateError from 'aggregate-error'
 import { temporaryFile } from 'tempy'
-import { getPkg } from './lib/get-pkg.js'
-import { verifyNpmConfig } from './lib/verify-config.js'
-import { verifyNpmAuth } from './lib/verify-auth.js'
+import { getPkg } from './lib/get-pkg.mjs'
+import { verifyNpmConfig } from './lib/verify-config.mjs'
+import { verifyNpmAuth } from './lib/verify-auth.mjs'
 import { addChannelNpm } from './lib/add-channel.mjs'
-import { prepareNpm } from './lib/prepare.js'
-import { publishNpm } from './lib/publish.js'
+import { prepareNpm } from './lib/prepare.mjs'
+import { publishNpm } from './lib/publish.mjs'
 
-let verified
-let prepared
+let verified: any
+let prepared: any
 const npmrc = temporaryFile({ name: '.npmrc' })
 
-export async function verifyConditions(pluginConfig, context) {
+export async function verifyConditions(pluginConfig: any, context: any) {
     // If the npm publish plugin is used and has `npmPublish`, `tarballDir` or `pkgRoot` configured, validate them now in order to prevent any release if the configuration is wrong
     if (context.options.publish) {
         const publishPlugin =
@@ -35,6 +35,7 @@ export async function verifyConditions(pluginConfig, context) {
             await verifyNpmAuth(npmrc, pkg, context)
         }
     } catch (error) {
+        // @ts-expect-error
         errors.push(...error.errors)
     }
 
@@ -45,7 +46,7 @@ export async function verifyConditions(pluginConfig, context) {
     verified = true
 }
 
-export async function prepare(pluginConfig, context) {
+export async function prepare(pluginConfig: any, context: any) {
     const errors = verified ? [] : verifyNpmConfig(pluginConfig)
 
     try {
@@ -54,7 +55,7 @@ export async function prepare(pluginConfig, context) {
         if (!verified && pluginConfig.npmPublish !== false && pkg.private !== true) {
             await verifyNpmAuth(npmrc, pkg, context)
         }
-    } catch (error) {
+    } catch (error: any) {
         errors.push(...error.errors)
     }
 
@@ -66,7 +67,7 @@ export async function prepare(pluginConfig, context) {
     prepared = true
 }
 
-export async function publish(pluginConfig, context) {
+export async function publish(pluginConfig: any, context: any) {
     let pkg
     const errors = verified ? [] : verifyNpmConfig(pluginConfig)
 
@@ -77,6 +78,7 @@ export async function publish(pluginConfig, context) {
             await verifyNpmAuth(npmrc, pkg, context)
         }
     } catch (error) {
+        //@ts-expect-error
         errors.push(...error.errors)
     }
 
@@ -91,7 +93,7 @@ export async function publish(pluginConfig, context) {
     return publishNpm(npmrc, pluginConfig, pkg, context)
 }
 
-export async function addChannel(pluginConfig, context) {
+export async function addChannel(pluginConfig: any, context: any) {
     let pkg
     const errors = verified ? [] : verifyNpmConfig(pluginConfig)
 
@@ -102,6 +104,7 @@ export async function addChannel(pluginConfig, context) {
             await verifyNpmAuth(npmrc, pkg, context)
         }
     } catch (error) {
+        //@ts-expect-error
         errors.push(...error.errors)
     }
 
@@ -109,5 +112,5 @@ export async function addChannel(pluginConfig, context) {
         throw new AggregateError(errors)
     }
 
-    return addChannelNpm(npmrc, pluginConfig, pkg, context)
+    return addChannelNpm(npmrc, pluginConfig, pkg as any, context)
 }

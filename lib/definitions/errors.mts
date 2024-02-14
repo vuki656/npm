@@ -6,10 +6,11 @@ import { readPackageSync } from 'read-pkg'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const pkg = readPackageSync({ cwd: resolve(__dirname, '../../') })
-const [homepage] = pkg.homepage?.split('#') ?? []
-const linkify = (file) => `${homepage}/blob/master/${file}`
 
-export function EINVALIDNPMPUBLISH({ npmPublish }) {
+const [homepage] = pkg.homepage?.split('#') ?? []
+const linkify = (file: any) => `${homepage}/blob/master/${file}`
+
+export function EINVALIDNPMPUBLISH({ npmPublish }: any) {
     return {
         message: 'Invalid `npmPublish` option.',
         details: `The [npmPublish option](${linkify('README.md#npmpublish')}) option, if defined, must be a \`Boolean\`.
@@ -18,7 +19,7 @@ Your configuration for the \`npmPublish\` option is \`${npmPublish}\`.`,
     }
 }
 
-export function EINVALIDTARBALLDIR({ tarballDir }) {
+export function EINVALIDTARBALLDIR({ tarballDir }: any) {
     return {
         message: 'Invalid `tarballDir` option.',
         details: `The [tarballDir option](${linkify('README.md#tarballdir')}) option, if defined, must be a \`String\`.
@@ -27,7 +28,7 @@ Your configuration for the \`tarballDir\` option is \`${tarballDir}\`.`,
     }
 }
 
-export function EINVALIDPKGROOT({ pkgRoot }) {
+export function EINVALIDPKGROOT({ pkgRoot }: any) {
     return {
         message: 'Invalid `pkgRoot` option.',
         details: `The [pkgRoot option](${linkify('README.md#pkgroot')}) option, if defined, must be a \`String\`.
@@ -36,7 +37,7 @@ Your configuration for the \`pkgRoot\` option is \`${pkgRoot}\`.`,
     }
 }
 
-export function ENONPMTOKEN({ registry }) {
+export function ENONPMTOKEN({ registry }: any) {
     return {
         message: 'No npm token specified.',
         details: `An [npm token](${linkify(
@@ -47,7 +48,7 @@ Please make sure to create an [npm token](https://docs.npmjs.com/getting-started
     }
 }
 
-export function EINVALIDNPMTOKEN({ registry }) {
+export function EINVALIDNPMTOKEN({ registry }: any) {
     return {
         message: 'Invalid npm token.',
         details: `The [npm token](${linkify(

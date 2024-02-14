@@ -4,9 +4,9 @@ import path from 'path'
 import test from 'ava'
 import fs from 'fs-extra'
 import { temporaryDirectory } from 'tempy'
-import { getPkg } from '../lib/get-pkg.js'
+import { getPkg } from '../lib/get-pkg.mjs'
 
-test('Verify name and version then return parsed package.json', async (t) => {
+test('Verify name and version then return parsed package.json', async (t: any) => {
     const cwd = temporaryDirectory()
     const pkg = { name: 'package', version: '0.0.0' }
     await fs.outputJson(path.resolve(cwd, 'package.json'), pkg)
@@ -16,7 +16,7 @@ test('Verify name and version then return parsed package.json', async (t) => {
     t.is(pkg.version, result.version)
 })
 
-test('Verify name and version then return parsed package.json from a sub-directory', async (t) => {
+test('Verify name and version then return parsed package.json from a sub-directory', async (t: any) => {
     const cwd = temporaryDirectory()
     const pkgRoot = 'dist'
     const pkg = { name: 'package', version: '0.0.0' }
@@ -27,7 +27,7 @@ test('Verify name and version then return parsed package.json from a sub-directo
     t.is(pkg.version, result.version)
 })
 
-test('Throw error if missing package.json', async (t) => {
+test('Throw error if missing package.json', async (t: any) => {
     const cwd = temporaryDirectory()
     const {
         errors: [error],
@@ -37,7 +37,7 @@ test('Throw error if missing package.json', async (t) => {
     t.is(error.code, 'ENOPKG')
 })
 
-test('Throw error if missing package name', async (t) => {
+test('Throw error if missing package name', async (t: any) => {
     const cwd = temporaryDirectory()
     await fs.outputJson(path.resolve(cwd, 'package.json'), { version: '0.0.0' })
 
@@ -49,7 +49,7 @@ test('Throw error if missing package name', async (t) => {
     t.is(error.code, 'ENOPKGNAME')
 })
 
-test('Throw error if package.json is malformed', async (t) => {
+test('Throw error if package.json is malformed', async (t: any) => {
     const cwd = temporaryDirectory()
     await fs.writeFile(path.resolve(cwd, 'package.json'), "{name: 'package',}")
 

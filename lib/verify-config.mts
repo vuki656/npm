@@ -1,9 +1,9 @@
 // @ts-check
 
 import { isBoolean, isNil, isString } from 'lodash-es'
-import { getError } from './get-error.js'
+import { getError } from './get-error.mjs'
 
-const isNonEmptyString = (value) => isString(value) && value.trim()
+const isNonEmptyString = (value: any) => isString(value) && value.trim()
 
 const VALIDATORS = {
     npmPublish: isBoolean,
@@ -11,12 +11,14 @@ const VALIDATORS = {
     pkgRoot: isNonEmptyString,
 }
 
-export function verifyNpmConfig({ npmPublish, tarballDir, pkgRoot }) {
+export function verifyNpmConfig({ npmPublish, tarballDir, pkgRoot }: any) {
     const errors = Object.entries({ npmPublish, tarballDir, pkgRoot }).reduce(
-        (errors, [option, value]) =>
-            !isNil(value) && !VALIDATORS[option](value)
+        (errors: any, [option, value]: any) => {
+            // @ts-expect-error
+            return !isNil(value) && !VALIDATORS[option](value)
                 ? [...errors, getError(`EINVALID${option.toUpperCase()}`, { [option]: value })]
-                : errors,
+                : errors
+        },
         [],
     )
 

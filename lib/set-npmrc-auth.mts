@@ -7,9 +7,9 @@ import getAuthToken from 'registry-auth-token'
 // @ts-expect-error // TODO:
 import nerfDart from 'nerf-dart'
 import AggregateError from 'aggregate-error'
-import { getError } from './get-error.js'
+import { getError } from './get-error.mjs'
 
-export async function setNpmrcAuth(npmrc, registry, { cwd, env: { NPM_TOKEN, NPM_CONFIG_USERCONFIG }, logger }) {
+export async function setNpmrcAuth(npmrc: any, registry: any, { cwd, env: { NPM_TOKEN, NPM_CONFIG_USERCONFIG }, logger }: any) {
     logger.log('Verify authentication for registry %s', registry)
     const { configs, ...rcConfig } = rc(
         'npm',
@@ -23,6 +23,7 @@ export async function setNpmrcAuth(npmrc, registry, { cwd, env: { NPM_TOKEN, NPM
 
     const currentConfig = configs ? (await Promise.all(configs.map((config) => fs.readFile(config)))).join('\n') : ''
 
+    // @ts-expect-error
     if (getAuthToken(registry, { npmrc: rcConfig })) {
         await fs.outputFile(npmrc, currentConfig)
         return

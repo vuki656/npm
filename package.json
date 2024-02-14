@@ -32,8 +32,9 @@
     "scripts": {
         "codecov": "codecov -f coverage/coverage-final.json",
         "lint": "prettier --check './**/*.{js,ts,yaml,yml,json,md}'",
+        "build": "tsc && cp ./package.json ./dist && cp ./test/helpers/config.yaml ./dist/test/helpers",
         "lint:fix": "prettier --write './**/*.{js,ts,yaml,yml,json,md}'",
-        "test": "tsc && ava -v",
+        "test": "yarn build && ava -v",
         "test:ci": "ava -v"
     },
     "ava": {
@@ -61,6 +62,7 @@
     },
     "devDependencies": {
         "@ava/typescript": "^4.1.0",
+        "@types/dockerode": "^3.3.23",
         "@types/fs-extra": "^11.0.4",
         "@types/lodash-es": "^4.17.12",
         "@types/node": "^20.11.17",

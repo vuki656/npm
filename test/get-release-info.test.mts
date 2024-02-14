@@ -1,7 +1,7 @@
 import test from 'ava'
 import { getReleaseInfo } from '../lib/get-release-info.mjs'
 
-test('Default registry and scoped module', async (t) => {
+test('Default registry and scoped module', async (t: any) => {
     const releaseInfo = getReleaseInfo(
         { name: '@scope/module' },
         { nextRelease: { version: '1.0.0' } },
@@ -16,7 +16,7 @@ test('Default registry and scoped module', async (t) => {
     })
 })
 
-test('Custom registry and scoped module', async (t) => {
+test('Custom registry and scoped module', async (t: any) => {
     const releaseInfo = getReleaseInfo(
         { name: '@scope/module' },
         { nextRelease: { version: '1.0.0' } },

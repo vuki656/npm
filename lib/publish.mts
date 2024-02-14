@@ -4,9 +4,9 @@ import path from 'path'
 import { execa } from 'execa'
 import { getRegistry } from './get-registry.mjs'
 import { getChannel } from './get-channel.mjs'
-import { getReleaseInfo } from './get-release-info.js'
+import { getReleaseInfo } from './get-release-info.mjs'
 
-export async function publishNpm(npmrc, { npmPublish, pkgRoot }, pkg, context) {
+export async function publishNpm(npmrc: any, { npmPublish, pkgRoot }: any, pkg: any, context: any) {
     const {
         cwd,
         env,

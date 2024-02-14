@@ -7,16 +7,16 @@ import { temporaryDirectory, temporaryFile } from 'tempy'
 import { execa } from 'execa'
 import { stub } from 'sinon'
 import { WritableStreamBuffer } from 'stream-buffers'
-import { prepareNpm } from '../lib/prepare.js'
+import { prepareNpm } from '../lib/prepare.mjs'
 
-test.beforeEach((t) => {
+test.beforeEach((t: any) => {
     t.context.log = stub()
     t.context.logger = { log: t.context.log }
     t.context.stdout = new WritableStreamBuffer()
     t.context.stderr = new WritableStreamBuffer()
 })
 
-test('Update package.json', async (t) => {
+test('Update package.json', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
@@ -42,7 +42,7 @@ test('Update package.json', async (t) => {
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', cwd])
 })
 
-test('Updade package.json and npm-shrinkwrap.json', async (t) => {
+test('Updade package.json and npm-shrinkwrap.json', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
@@ -71,7 +71,7 @@ test('Updade package.json and npm-shrinkwrap.json', async (t) => {
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', cwd])
 })
 
-test('Updade package.json and package-lock.json', async (t) => {
+test('Updade package.json and package-lock.json', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
@@ -101,7 +101,7 @@ test('Updade package.json and package-lock.json', async (t) => {
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', cwd])
 })
 
-test('Updade package.json and npm-shrinkwrap.json in a sub-directory', async (t) => {
+test('Updade package.json and npm-shrinkwrap.json in a sub-directory', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const pkgRoot = 'dist'
@@ -131,7 +131,7 @@ test('Updade package.json and npm-shrinkwrap.json in a sub-directory', async (t)
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', path.resolve(cwd, pkgRoot)])
 })
 
-test('Updade package.json and package-lock.json in a sub-directory', async (t) => {
+test('Updade package.json and package-lock.json in a sub-directory', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const pkgRoot = 'dist'
@@ -162,7 +162,7 @@ test('Updade package.json and package-lock.json in a sub-directory', async (t) =
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', path.resolve(cwd, pkgRoot)])
 })
 
-test('Preserve indentation and newline', async (t) => {
+test('Preserve indentation and newline', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
@@ -188,7 +188,7 @@ test('Preserve indentation and newline', async (t) => {
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', cwd])
 })
 
-test('Create the package in the "tarballDir" directory', async (t) => {
+test('Create the package in the "tarballDir" directory', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
@@ -216,7 +216,7 @@ test('Create the package in the "tarballDir" directory', async (t) => {
     t.deepEqual(t.context.log.args[0], ['Write version %s to package.json in %s', '1.0.0', cwd])
 })
 
-test('Only move the created tarball if the "tarballDir" directory is not the CWD', async (t) => {
+test('Only move the created tarball if the "tarballDir" directory is not the CWD', async (t: any) => {
     const cwd = temporaryDirectory()
     const npmrc = temporaryFile({ name: '.npmrc' })
     const packagePath = path.resolve(cwd, 'package.json')
