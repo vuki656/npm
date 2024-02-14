@@ -4,7 +4,12 @@ import { PublishContext } from 'semantic-release'
 import { getReleaseInfo } from './get-release-info.mjs'
 import { getRegistry } from './get-registry.mjs'
 
-export async function addChannelNpm(npmrc: string, { npmPublish }: { npmPublish: boolean }, pkg: Record<string, any>, context: PublishContext) {
+export async function addChannelNpm(
+    npmrc: string,
+    { npmPublish }: { npmPublish: boolean },
+    pkg: Record<string, any>,
+    context: PublishContext,
+) {
     const {
         cwd,
         env,

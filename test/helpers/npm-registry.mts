@@ -61,15 +61,13 @@ export async function start() {
             email: NPM_EMAIL,
         },
     })
-
-    
-    ;({ token: npmToken } = await got(`http://${REGISTRY_HOST}:${REGISTRY_PORT}/-/npm/v1/tokens`, {
+    ;({ token: npmToken } = (await got(`http://${REGISTRY_HOST}:${REGISTRY_PORT}/-/npm/v1/tokens`, {
         username: NPM_USERNAME,
         password: NPM_PASSWORD,
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         json: { password: NPM_PASSWORD, readonly: false, cidr_whitelist: [] },
-    }).json() as any)
+    }).json()) as any)
 }
 
 export const url = `http://${REGISTRY_HOST}:${REGISTRY_PORT}/`

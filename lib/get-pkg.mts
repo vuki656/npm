@@ -12,7 +12,7 @@ export async function getPkg({ pkgRoot }: any, { cwd }: any) {
         })
 
         if (!pkg.name) {
-        // @ts-expect-error
+            // @ts-expect-error
             throw getError('ENOPKGNAME')
         }
 
@@ -20,7 +20,7 @@ export async function getPkg({ pkgRoot }: any, { cwd }: any) {
     } catch (error) {
         // @ts-expect-error
         if (error.code === 'ENOENT') {
-        // @ts-expect-error
+            // @ts-expect-error
             throw new AggregateError([getError('ENOPKG')])
         }
 

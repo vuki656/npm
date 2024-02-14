@@ -7,9 +7,9 @@
     },
     "type": "module",
     "scripts": {
-        "lint": "prettier --check './**/*.{js,ts,yaml,yml,json,md}'",
+        "lint": "prettier --check './**/*.{js,ts,yaml,yml,json,md,mts}'",
         "build": "tsc && cp ./package.json ./dist && cp ./test/helpers/config.yaml ./dist/test/helpers",
-        "lint:fix": "prettier --write './**/*.{js,ts,yaml,yml,json,md}'",
+        "lint:fix": "prettier --write './**/*.{js,ts,yaml,yml,json,md,mts}'",
         "test": "yarn build && ava -v",
         "test:ci": "ava -v"
     },

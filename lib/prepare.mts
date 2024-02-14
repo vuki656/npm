@@ -4,7 +4,11 @@ import { resolve } from 'node:path'
 import { move } from 'fs-extra'
 import { execa } from 'execa'
 
-export async function prepareNpm(npmrc: any, { tarballDir, pkgRoot }: any, { cwd, env, stdout, stderr, nextRelease: { version }, logger }: any) {
+export async function prepareNpm(
+    npmrc: any,
+    { tarballDir, pkgRoot }: any,
+    { cwd, env, stdout, stderr, nextRelease: { version }, logger }: any,
+) {
     const basePath = pkgRoot ? resolve(cwd, pkgRoot) : cwd
 
     logger.log('Write version %s to package.json in %s', version, basePath)

@@ -88,7 +88,7 @@ test.serial('Preserve home and local ".npmrc"', async (t: any) => {
     )
     t.deepEqual(t.context.log.args[1], [
         'Reading npm config from %s',
-    // @ts-expect-error
+        // @ts-expect-error
         [resolve(process.env.HOME, '.npmrc'), resolve(cwd, '.npmrc')].join(', '),
     ])
     t.deepEqual(t.context.log.args[2], [`Wrote NPM_TOKEN to ${npmrc}`])
@@ -111,7 +111,7 @@ test.serial('Preserve all ".npmrc" if auth is already configured', async (t: any
     t.is((await fs.readFile(npmrc)).toString(), `home_config = test\n//custom.registry.com/:_authToken = \${NPM_TOKEN}`)
     t.deepEqual(t.context.log.args[1], [
         'Reading npm config from %s',
-    // @ts-expect-error
+        // @ts-expect-error
         [resolve(process.env.HOME, '.npmrc'), resolve(cwd, '.npmrc')].join(', '),
     ])
 })
@@ -139,7 +139,7 @@ test.serial('Preserve ".npmrc" if auth is already configured for a scoped packag
     )
     t.deepEqual(t.context.log.args[1], [
         'Reading npm config from %s',
-    // @ts-expect-error
+        // @ts-expect-error
         [resolve(process.env.HOME, '.npmrc'), resolve(cwd, '.npmrc')].join(', '),
     ])
 })
