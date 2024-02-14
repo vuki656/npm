@@ -1,11 +1,10 @@
-// @ts-check
-
 import { execa } from 'execa'
-import { getRegistry } from './get-registry.js'
-import { getChannel } from './get-channel.js'
-import { getReleaseInfo } from './get-release-info.js'
+import { getChannel } from './get-channel.mjs'
+import { PublishContext } from 'semantic-release'
+import { getReleaseInfo } from './get-release-info.mjs'
+import { getRegistry } from './get-registry.mjs'
 
-export async function addChannelNpm(npmrc, { npmPublish }, pkg, context) {
+export async function addChannelNpm(npmrc: string, { npmPublish }: { npmPublish: boolean }, pkg: Record<string, any>, context: PublishContext) {
     const {
         cwd,
         env,
@@ -16,7 +15,8 @@ export async function addChannelNpm(npmrc, { npmPublish }, pkg, context) {
     } = context
 
     if (npmPublish !== false && pkg.private !== true) {
-        const registry = getRegistry(pkg, context)
+        // TODO:
+        const registry = getRegistry(pkg, context as any)
         const distTag = getChannel(channel)
 
         logger.log(`Adding version ${version} to npm registry on dist-tag ${distTag}`)

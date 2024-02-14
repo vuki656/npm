@@ -1,24 +1,9 @@
-// @ts-check
-
 import normalizeUrl from 'normalize-url'
 
-type ConfigType = {
-    env?: {
-        DEFAULT_NPM_REGISTRY: string
-    },
-    nextRelease: {
-        version: string
-    }
-}
-
-type DetailsType = {
-    name: string
-}
-
 export function getReleaseInfo(
-    details: DetailsType,
-    config: ConfigType,
-    distTag: string,
+    details: Record<string ,any>,
+    config: any, // TODO:
+    distTag: any, // TODO:
     registry: string,
 ) {
     const isUrlNormalized = normalizeUrl(registry) === normalizeUrl(config?.env?.DEFAULT_NPM_REGISTRY ?? 'https://registry.npmjs.org/')

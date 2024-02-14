@@ -4,7 +4,7 @@ import path from 'path'
 import test from 'ava'
 import fs from 'fs-extra'
 import { temporaryDirectory } from 'tempy'
-import { getRegistry } from '../lib/get-registry.js'
+import { getRegistry } from '../lib/get-registry.mjs'
 
 test('Get default registry', (t) => {
     const cwd = temporaryDirectory()

@@ -6,7 +6,7 @@ import { temporaryFile } from 'tempy'
 import { getPkg } from './lib/get-pkg.js'
 import { verifyNpmConfig } from './lib/verify-config.js'
 import { verifyNpmAuth } from './lib/verify-auth.js'
-import { addChannelNpm } from './lib/add-channel.js'
+import { addChannelNpm } from './lib/add-channel.mjs'
 import { prepareNpm } from './lib/prepare.js'
 import { publishNpm } from './lib/publish.js'
 

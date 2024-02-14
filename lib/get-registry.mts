@@ -4,12 +4,14 @@ import path from 'path'
 import rc from 'rc'
 import getRegistryUrl from 'registry-auth-token/registry-url.js'
 
-export function getRegistry({ publishConfig: { registry } = {}, name }, { cwd, env }) {
+// @ts-expect-error
+export function getRegistry({ publishConfig: { registry } = {}, name }: Record<string, any>, { cwd, env }: Record<string, any>) {
     return (
         registry ||
         env.NPM_CONFIG_REGISTRY ||
         getRegistryUrl(
             name.split('/')[0],
+            // @ts-expect-error
             rc(
                 'npm',
                 { registry: 'https://registry.npmjs.org/' },

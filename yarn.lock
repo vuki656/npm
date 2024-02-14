@@ -609,6 +609,7 @@ __metadata:
     "@types/lodash-es": "npm:^4.17.12"
     "@types/node": "npm:^20.11.17"
     "@types/rc": "npm:^1.2.4"
+    "@types/semantic-release": "npm:^20.0.6"
     "@types/semver": "npm:^7.5.7"
     "@types/sinon": "npm:^17.0.3"
     "@types/stream-buffers": "npm:^3.0.7"
@@ -900,6 +901,15 @@ __metadata:
   version: 0.12.2
   resolution: "@types/retry@npm:0.12.2"
   checksum: 10c0/07481551a988cc90b423351919928b9ddcd14e3f5591cac3ab950851bb20646e55a10e89141b38bc3093d2056d4df73700b22ff2612976ac86a6367862381884
+  languageName: node
+  linkType: hard
+
+"@types/semantic-release@npm:^20.0.6":
+  version: 20.0.6
+  resolution: "@types/semantic-release@npm:20.0.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/ab8525a3dff2eb3f48ccfebcfc7988cf65efcb8fe9574007bca0574ee340e409d7ecef2556cdba5278278d5e51233a372709046b28fe82518f8d94f3e79d87fb
   languageName: node
   linkType: hard
 

@@ -1,5 +1,3 @@
-// @ts-check
-
 import test from 'ava'
 import { getReleaseInfo } from '../lib/get-release-info.mjs'
 
